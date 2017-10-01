@@ -8,7 +8,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Composer PHP package manager [https://getcomposer.org]
+1. Composer PHP package manager [https://getcomposer.org]
+2. Make sure that you have PHP7 and higher running on your local server environment.
 
 ### Installation
 
