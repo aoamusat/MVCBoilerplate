@@ -21,15 +21,16 @@ These instructions will get you a copy of the project up and running on your loc
 
 Make sure that you put this repository INSIDE any of local server environment (XAMPP/MAMP/WAMP)
 
-3)In your command line application, navigate to the folder where the cloned repository exists. 
+3) Go to ```config.php``` and change the name for the db as well as username and password to access it.
 
-4)Before starting the app, please run: 
+4) In your command line application, navigate to the folder where the cloned repository exists. 
+
+5) Before starting the app, please run: 
 
  ```composer install```
 
-5) Now you can open any browser and open up this repo. E.g. 
+6) Now you can open any browser and open up this repo. E.g. 
   ```http://localhost/MVCBoilerplate```
-
 
 ### Start-Guide
 
