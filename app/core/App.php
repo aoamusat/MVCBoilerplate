@@ -6,7 +6,8 @@
 		protected static $registry = [];
 
 		/**
-		 * Inject new value into the DI Container
+		 * Inject new value into the DI Container.
+         *
 		 * @param  string $key   
 		 * @param  mixed $value 
 		 * @return null
@@ -17,9 +18,11 @@
 		}
 
 		/**
-		 * Get the key
+		 * Get an item by its key from the DI Container.
+         *
 		 * @param  string $key 
 		 * @return null
+         * @throws Exception if the service name that was passed into the method is not found.
 		 */
 		public static function get(string $key)
 		{

@@ -1,5 +1,5 @@
 <?php
-	
+
 
 	class Router
 	{
@@ -12,7 +12,7 @@
 			);
 
 		/**
-		 * route registrar
+		 * Route registrar
 		 * @param  array $routes
 		 */
 		public function register($routes)
@@ -22,9 +22,11 @@
 
 		/**
 		 * Forward HTTP Requests to a controller method
-		 * @param  string $uri         
+         *
+		 * @param  string $uri
 		 * @param  string $requestType GET/POST/PATCH/DELETE/PUT
-		 * @return null             
+         * @throws Exception
+		 * @return null
 		 */
 		public function direct($uri, $requestType)
 		{
@@ -40,9 +42,11 @@
 		}
 
 		/**
-		 * Call the specified controller method 
+		 * Call the specified controller method
+         *
 		 * @param  string $controller [description]
 		 * @param  string $method     [description]
+         * @throws Exception
 		 * @return [type]             [description]
 		 */
 		protected function callAction(string $controller, string $method)
@@ -56,9 +60,10 @@
 
 		/**
 		 * Handles http get requests
-		 * @param  string $uri        
-		 * @param  string $controller 
-		 * @return null             
+         *
+		 * @param  string $uri
+		 * @param  string $controller
+		 * @return null
 		 */
 		public function get($uri, $controller)
 		{
@@ -67,9 +72,10 @@
 
 		/**
 		 * Handles HTTP POST Requests
-		 * @param  string $uri        
-		 * @param  string $controller 
-		 * @return null 
+         *
+		 * @param  string $uri
+		 * @param  string $controller
+		 * @return null
 		 */
 		public function post($uri, $controller)
 		{
@@ -78,9 +84,10 @@
 
 		/**
 		 * Handles HTTP PUT Requests
-		 * @param  string $uri        
-		 * @param  string $controller 
-		 * @return null             
+         *
+		 * @param  string $uri
+		 * @param  string $controller
+		 * @return null
 		 */
 		public function put($uri, $controller)
 		{
@@ -89,9 +96,10 @@
 
 		/**
 		 * Handles HTTP DELETE Requests
-		 * @param  string $uri        
-		 * @param  string $controller 
-		 * @return null             
+         *
+		 * @param  string $uri
+		 * @param  string $controller
+		 * @return null
 		 */
 		public function delete($uri, $controller)
 		{
@@ -100,9 +108,10 @@
 
 		/**
 		 * Handles HTTP PATCH Requests
-		 * @param  string $uri        
-		 * @param  string $controller 
-		 * @return null             
+         *
+		 * @param  string $uri
+		 * @param  string $controller
+		 * @return null
 		 */
 		public function patch($uri, $controller)
 		{
@@ -111,6 +120,7 @@
 
 		/**
 		 * Load route file
+         *
 		 * @param  string $file
 		 * @return Router instance
 		 */
