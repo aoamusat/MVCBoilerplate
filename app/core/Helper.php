@@ -3,6 +3,11 @@
 	
 	class Helper 
 	{
+        /**
+         * Prints human-readable information about a variable.
+         *
+         * @param $data
+         */
 		public static function dd($data)
 		{
 			echo "<pre>";

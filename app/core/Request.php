@@ -1,8 +1,12 @@
 <?php
-	
+
 
 	class Request
 	{
+        /**
+         * Get the uri of a request.
+         * @return string
+         */
 		public static function uri()
 		{
 			$uri = trim(
@@ -11,6 +15,11 @@
 			return $uri;
 		}
 
+        /**
+         * Get the request method.
+         *
+         * @return string
+         */
 		public static function method()
 		{
 			$method = $_SERVER['REQUEST_METHOD'];

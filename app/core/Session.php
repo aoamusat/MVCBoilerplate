@@ -5,7 +5,8 @@
 	{
 
 		/**
-		 * Push new item into the session
+		 * Push new item into the global $_SESSION variable
+         *
 		 * @param  string $name name of the item
 		 * @param  mixed $data item to be pushed
 		 * @return null      
@@ -17,8 +18,10 @@
 		}
 
 		/**
-		 * Retrieve an item from session
-		 * @param  string $name 
+		 * Retrieve an item from the global $_SESSION variable
+         *
+		 * @param  string $name
+         *@throws Exception
 		 * @return mixed       
 		 */
 		public static function get(string $name)
@@ -32,7 +35,8 @@
 		}
 
 		/**
-		 * Check if an item exist in the session
+		 * Check if an item exists in the global $_SESSION variable
+         *
 		 * @param  string  $name item name
 		 * @return boolean       
 		 */
