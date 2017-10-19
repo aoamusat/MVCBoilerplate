@@ -1,12 +1,11 @@
 <?php
-
+	
 	
 	class QueryBuilder
 	{
 		protected $pdo ;	
 		function __construct(PDO $pdo)
 		{
-			# code...
 			$this->pdo = $pdo;
 		}
 
