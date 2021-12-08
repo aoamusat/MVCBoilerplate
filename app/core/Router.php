@@ -8,7 +8,8 @@
 				'POST' => [],
 				'PUT' => [],
 				'DELETE' => [],
-				'PATCH' => []
+				'PATCH' => [],
+				"HEAD" => []
 			);
 
 		/**
@@ -22,10 +23,10 @@
 
 		/**
 		 * Forward HTTP Requests to a controller method
-         *
+         	 *
 		 * @param  string $uri
-		 * @param  string $requestType GET/POST/PATCH/DELETE/PUT
-         * @throws Exception
+		 * @param  string $requestType
+         	 * @throws Exception
 		 * @return null
 		 */
 		public function direct($uri, $requestType)
@@ -37,7 +38,8 @@
 					);
 			}
 			else {
-					throw new Exception("No Route Defined For This URI. ");
+					http_status_code(404);
+					throw new Exception("Route: " . $uri . " not found!");
 			}
 		}
 
@@ -46,13 +48,14 @@
          *
 		 * @param  string $controller [description]
 		 * @param  string $method     [description]
-         * @throws Exception
+         	 * @throws Exception
 		 * @return [type]             [description]
 		 */
 		protected function callAction(string $controller, string $method)
 		{
 			if (!method_exists($controller, $method)) {
-				throw new Exception("Error Processing Request");
+				http_status_code(500);
+				throw new Exception($method . " not define on " . $controller);
 			}
 
 			return (new $controller)->$method();
@@ -99,7 +102,7 @@
          *
 		 * @param  string $uri
 		 * @param  string $controller
-		 * @return null
+		 * @return mixed
 		 */
 		public function delete($uri, $controller)
 		{
@@ -108,19 +111,31 @@
 
 		/**
 		 * Handles HTTP PATCH Requests
-         *
+         	 *
 		 * @param  string $uri
 		 * @param  string $controller
-		 * @return null
+		 * @return mixed
 		 */
 		public function patch($uri, $controller)
 		{
 			$this->routes['PATCH'][$uri] = $controller;
 		}
+		
+		/**
+		 * Handles HTTP HEAD Requests
+         	 *
+		 * @param  string $uri
+		 * @param  string $controller
+		 * @return mixed
+		 */
+		public function patch($uri, $controller)
+		{
+			$this->routes['HEAD'][$uri] = $controller;
+		}
 
 		/**
 		 * Load route file
-         *
+         	 *
 		 * @param  string $file
 		 * @return Router instance
 		 */
