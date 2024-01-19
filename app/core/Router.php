@@ -63,14 +63,15 @@ class Router
     protected function callAction(string $controller, string $method)
     {
         $className = '\App\Controller\\' . $controller;
-        $controller = new $className();
 
-        if (!method_exists($controller, $method)) {
+        $controllerClass = new $className();
+
+        if (!method_exists($controllerClass, $method)) {
             \http_response_code(500);
-            throw new \Exception($method . " not defined on " . $controller);
+            throw new \Exception($method . " not defined on " . $controllerClass);
         }
 
-        return $controller->$method();
+        return $controllerClass->$method();
     }
 
     /**

@@ -10,7 +10,7 @@ use App\Core\Helper;
  *
  * Controller for handling user-related actions.
  */
-class UsersController
+class UserController
 {
     /**
      * Display a listing of users.

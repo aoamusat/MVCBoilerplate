@@ -4,8 +4,8 @@ use App\Core\Router;
 
 $router = new Router();
 
-$router->get('', 'PagesController@home');
-$router->get('about', 'PagesController@about');
-$router->get('contact', 'PagesController@contact');
-$router->get('users', 'UsersController@index');
-$router->post('users', 'UsersController@store');
+$router->get('', 'PageController@home');
+$router->get('about', 'PageController@about');
+$router->get('contact', 'PageController@contact');
+$router->get('users', 'UserController@index');
+$router->post('users', 'UserController@store');
