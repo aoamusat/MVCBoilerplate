@@ -1,11 +1,11 @@
 {
-	"name": "haykay/mvc-boilerplate",
+	"name": "aoamusat/mvcboilerplate",
 	"description": "A simple PHP MVC Boilerplate",
 	"keywords": ["framework", "MVC", "Boilerplate"],
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"php": ">=7.0"
+		"php": ">=7.4"
 	    },
 	"autoload" : {
 		"classmap" : [
