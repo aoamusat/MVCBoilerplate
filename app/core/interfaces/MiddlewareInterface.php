@@ -4,5 +4,5 @@ namespace App\Core\Interfaces;
 
 interface MiddlewareInterface
 {
-    public function handle(Request $request, \Closure $next);
+    public function handle(\App\Core\Request $request, \Closure $next);
 }

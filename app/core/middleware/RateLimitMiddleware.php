@@ -54,11 +54,12 @@ class RateLimitMiddleware implements MiddlewareInterface
                     $resetTime = $clientData['reset_time'];
                     $retryAfter = $resetTime - $currentTime;
                     
-                    http_response_code(429);
-                    header("Retry-After: {$retryAfter}");
-                    header("X-RateLimit-Limit: {$this->maxRequests}");
-                    header("X-RateLimit-Remaining: 0");
-                    header("X-RateLimit-Reset: {$resetTime}");
+                    $this->setHeaders([
+                        'Retry-After' => $retryAfter,
+                        'X-RateLimit-Limit' => $this->maxRequests,
+                        'X-RateLimit-Remaining' => 0,
+                        'X-RateLimit-Reset' => $resetTime
+                    ], 429);
                     
                     throw new RateLimitException("Rate limit exceeded. Try again in {$retryAfter} seconds.");
                 }
@@ -66,9 +67,11 @@ class RateLimitMiddleware implements MiddlewareInterface
         }
 
         $remaining = $this->maxRequests - $this->storage[$clientId]['count'];
-        header("X-RateLimit-Limit: {$this->maxRequests}");
-        header("X-RateLimit-Remaining: {$remaining}");
-        header("X-RateLimit-Reset: {$this->storage[$clientId]['reset_time']}");
+        $this->setHeaders([
+            'X-RateLimit-Limit' => $this->maxRequests,
+            'X-RateLimit-Remaining' => $remaining,
+            'X-RateLimit-Reset' => $this->storage[$clientId]['reset_time']
+        ]);
 
         return $next($request);
     }
@@ -78,5 +81,17 @@ class RateLimitMiddleware implements MiddlewareInterface
         $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
         $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
         return md5($ip . $userAgent);
+    }
+
+    protected function setHeaders(array $headers, int $statusCode = null): void
+    {
+        if (!headers_sent()) {
+            if ($statusCode) {
+                http_response_code($statusCode);
+            }
+            foreach ($headers as $name => $value) {
+                header("{$name}: {$value}");
+            }
+        }
     }
 }

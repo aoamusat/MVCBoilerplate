@@ -72,3 +72,8 @@ Homestead.json
 /app/Config/core.php
 /app/Config/database.php
 /vendors/*
+
+
+# IDE specific stuffs
+/.idea
+/.vscode

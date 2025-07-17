@@ -39,8 +39,9 @@ class ThrottleMiddleware implements MiddlewareInterface
             if ($timeSinceLastRequest < $this->minInterval) {
                 $waitTime = $this->minInterval - $timeSinceLastRequest;
                 
-                http_response_code(429);
-                header("Retry-After: {$waitTime}");
+                $this->setHeaders([
+                    'Retry-After' => $waitTime
+                ], 429);
                 
                 throw new ThrottleException("Request throttled. Please wait {$waitTime} seconds before making another request.");
             }
@@ -56,5 +57,17 @@ class ThrottleMiddleware implements MiddlewareInterface
         $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
         $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
         return md5($ip . $userAgent);
+    }
+
+    protected function setHeaders(array $headers, int $statusCode = null): void
+    {
+        if (!headers_sent()) {
+            if ($statusCode) {
+                http_response_code($statusCode);
+            }
+            foreach ($headers as $name => $value) {
+                header("{$name}: {$value}");
+            }
+        }
     }
 }
