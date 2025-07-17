@@ -10,7 +10,7 @@ class ThrottleException extends BaseException
 {
     protected $httpStatusCode = 429;
     
-    public function __construct(string $message = "Request throttled", int $code = 429, \Throwable $previous = null)
+    public function __construct(string $message = "Request throttled", int $code = 429, ?\Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }
@@ -59,7 +59,7 @@ class ThrottleMiddleware implements MiddlewareInterface
         return md5($ip . $userAgent);
     }
 
-    protected function setHeaders(array $headers, int $statusCode = null): void
+    protected function setHeaders(array $headers, ?int $statusCode = null): void
     {
         if (!headers_sent()) {
             if ($statusCode) {

@@ -66,7 +66,14 @@ class Router
                 );
             });
         } else {
-            throw new RouteNotFoundException($uri);
+            // Set HTTP 404 status code
+            http_response_code(404);
+            
+            // Include the 404 error page
+            include __DIR__ . '/../views/errors/404.view.php';
+            
+            // Exit to prevent further processing
+            exit;
         }
     }
 

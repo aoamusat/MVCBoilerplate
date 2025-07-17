@@ -10,7 +10,7 @@ class RateLimitException extends BaseException
 {
     protected $httpStatusCode = 429;
     
-    public function __construct(string $message = "Too Many Requests", int $code = 429, \Throwable $previous = null)
+    public function __construct(string $message = "Too Many Requests", int $code = 429, ?\Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }
@@ -83,7 +83,7 @@ class RateLimitMiddleware implements MiddlewareInterface
         return md5($ip . $userAgent);
     }
 
-    protected function setHeaders(array $headers, int $statusCode = null): void
+    protected function setHeaders(array $headers, ?int $statusCode = null): void
     {
         if (!headers_sent()) {
             if ($statusCode) {
