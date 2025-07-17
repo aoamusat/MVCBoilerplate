@@ -39,7 +39,7 @@ By participating in this project, you agree to abide by our code of conduct:
 1. Fork the repository
 2. Clone your fork:
    ```bash
-   git clone https://github.com/yourusername/fortress.git
+   git clone https://github.com/aoamusat/fortress.git
    cd fortress
    ```
 
@@ -85,7 +85,7 @@ Security is our top priority. When contributing security-related changes:
 ### Reporting Security Issues
 
 - **DO NOT** open public issues for security vulnerabilities
-- Email security issues to: security@fortress-framework.com
+- Email security issues to: aoamusat@gmail.com
 - Include detailed steps to reproduce
 - Provide impact assessment
 
@@ -325,7 +325,7 @@ docs(readme): update installation instructions
 - GitHub Issues: Bug reports and feature requests
 - GitHub Discussions: General questions and ideas
 - Discord: Real-time community chat
-- Email: security@fortress-framework.com for security issues
+- Email: aoamusat@gmail.com for security issues
 
 ### Recognition
 
