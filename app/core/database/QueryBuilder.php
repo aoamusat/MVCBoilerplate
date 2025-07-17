@@ -1,5 +1,7 @@
 <?php
 
+use App\Core\Exceptions\DatabaseException;
+
 /**
  * Class QueryBuilder
  *
@@ -28,9 +30,9 @@ class QueryBuilder
      */
     public function selectAll($table)
     {
-        $statement = $this->pdo->prepare("SELECT * FROM {$table}");
+        $statement = $this->pdo->prepare("SELECT * FROM `{$table}`");
         $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_CLASS);
+        return $statement->fetchAll(PDO::FETCH_OBJ);
     }
 
     /**
@@ -50,13 +52,14 @@ class QueryBuilder
      *
      * @param string $id The ID of the row to retrieve.
      * @param string $table The name of the table.
-     * @return array An array containing the retrieved row.
+     * @return object|null The retrieved row or null if not found.
      */
     public function findOne($id, $table)
     {
-        $statement = $this->pdo->prepare("SELECT * FROM {$table} WHERE id={$id} LIMIT 1");
+        $statement = $this->pdo->prepare("SELECT * FROM `{$table}` WHERE id = :id LIMIT 1");
+        $statement->bindParam(':id', $id, PDO::PARAM_INT);
         $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_OBJ);
+        return $statement->fetch(PDO::FETCH_OBJ) ?: null;
     }
 
     /**
@@ -66,20 +69,21 @@ class QueryBuilder
      * @param array $params An associative array of column-value pairs to insert.
      * @return void
      */
-    public function insert(string $table, array $params = [])
+    public function insert(string $table, array $params = []) : bool
     {
         $sql = sprintf(
             "INSERT INTO %s (%s) VALUES(%s)",
             $table,
-            implode(',', array_keys($params)),
+            implode(',', array_keys($params)), 
             ':' . implode(', :', array_keys($params))
         );
 
         try {
             $statement = $this->pdo->prepare($sql);
-            $statement->execute($params);
+            return $statement->execute($params);
         } catch (PDOException $e) {
-            die("Whoops!! Something Went Wrong!!!");
+            // throw new DatabaseException("Failed to insert data: " . $e->getMessage());
+            return false;
         }
     }
 }

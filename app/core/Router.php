@@ -2,6 +2,11 @@
 
 namespace App\Core;
 
+use App\Core\Exceptions\RouteNotFoundException;
+use App\Core\Exceptions\MethodNotFoundException;
+use App\Core\MiddlewarePipeline;
+use App\Core\Interfaces\MiddlewareInterface;
+
 /**
  * Class Router
  *
@@ -20,6 +25,11 @@ class Router
         'PATCH'  => [],
         'HEAD'   => [],
     ];
+
+    /**
+     * @var array $middlewares Global middlewares to be applied to all routes.
+     */
+    private $middlewares = [];
 
     /**
      * Route registrar.
@@ -43,12 +53,20 @@ class Router
     public function direct($uri, $requestType)
     {
         if (array_key_exists($uri, $this->routes[$requestType])) {
-            $this->callAction(
-                ...explode('@', $this->routes[$requestType][$uri])
-            );
+            $request = new Request();
+            $pipeline = new MiddlewarePipeline();
+            
+            foreach ($this->middlewares as $middleware) {
+                $pipeline->add($middleware);
+            }
+            
+            return $pipeline->handle($request, function($request) use ($uri, $requestType) {
+                return $this->callAction(
+                    ...explode('@', $this->routes[$requestType][$uri])
+                );
+            });
         } else {
-            \http_response_code(404);
-            throw new \Exception("Route: " . $uri . " not found!");
+            throw new RouteNotFoundException($uri);
         }
     }
 
@@ -67,8 +85,7 @@ class Router
         $controllerClass = new $className();
 
         if (!method_exists($controllerClass, $method)) {
-            \http_response_code(500);
-            throw new \Exception($method . " not defined on " . $controllerClass);
+            throw new MethodNotFoundException($method, $controller);
         }
 
         return $controllerClass->$method();
@@ -144,6 +161,18 @@ class Router
     public function head($uri, $controller)
     {
         $this->routes['HEAD'][$uri] = $controller;
+    }
+
+    /**
+     * Add middleware to the router.
+     *
+     * @param MiddlewareInterface $middleware The middleware to add.
+     * @return Router
+     */
+    public function middleware(MiddlewareInterface $middleware): self
+    {
+        $this->middlewares[] = $middleware;
+        return $this;
     }
 
     /**
