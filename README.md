@@ -1,49 +1,125 @@
-# MVCBoilerplate
+# Fortress
 
-A simple MVC(Model View Controller) Boilerplate application in PHP. You can use this repository for teaching PHP primer and introduction to MVC design pattern.
+A secure, enterprise-grade MVC framework in PHP with built-in security features, middleware pipeline, and advanced dependency injection. Perfect for teaching modern PHP development patterns and building production-ready micro PHP applications.
 
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
+## Features
+
+- **🔒 Built-in Security**: SQL injection protection, input sanitization, and secure query building
+- **🛡️ Middleware Pipeline**: Rate limiting, request throttling, and extensible middleware system
+- **🏗️ Advanced DI Container**: Interface binding, auto-resolution, and singleton management
+- **⚡ Performance**: Optimized routing with middleware caching and efficient request handling
+- **🎯 Clean Architecture**: Separation of concerns with proper exception handling
+- **📚 Educational**: Perfect for learning modern PHP development patterns
+
 ### Prerequisites
 
 1. Composer PHP package manager [https://getcomposer.org]
-2. Make sure that you have PHP7 and higher running on your local server environment.
+2. PHP 7.4 or higher
+3. MySQL/MariaDB database
 
 ### Installation
 
 1)Install Composer PHP package manager [https://getcomposer.org]
 
-2)Clone this Repository in CLI by running - 
+2) Clone this Repository in CLI by running:
 
- ```git clone https://github.com/dev-haykay/MVCBoilerplate.git``` 
+```bash
+git clone https://github.com/aoamusat/fortress.git
+```
 
-Make sure that you put this repository INSIDE any of local server environment (XAMPP/MAMP/WAMP)
+3) Navigate to the project directory:
 
-3) Go to ```config.php``` and change the name for the db as well as username and password to access it.
+```bash
+cd fortress
+```
 
-4) In your command line application, navigate to the folder where the cloned repository exists. 
+4) Install dependencies:
 
-5) Before starting the app, please run: 
+```bash
+composer install
+```
 
- ```composer install```
+5) Configure your database in `config.php`:
 
-6) Now you can open any browser and open up this repo. E.g. 
-  ```http://localhost/MVCBoilerplate```
+```php
+'database' => [
+    'name' => 'your_database_name',
+    'host' => 'localhost',
+    'username' => 'your_username',
+    'password' => 'your_password',
+]
+```
 
-### Start-Guide
+6) Start your local server and visit:
+```
+http://localhost/fortress
+```
 
-1) A MySQL based boilerplate. Once installed, it is a basic PHP app with User interface for Logging In and Different pages(About, Contact, Index, User) can be seen.
+## Architecture
 
-2) The Views, Database and Controllers are separately stored in app folder which can be edited as per convenience.
+fortress follows a clean MVC architecture with additional security layers:
 
-3) Public Folder has the Static CSS JS content displayed through PHP Server (XAMPP/MAMP/WAMP).
+```
+app/
+├── controllers/        # Request handlers
+├── core/              # Framework core
+│   ├── exceptions/    # Custom exception classes
+│   ├── interfaces/    # Contracts and interfaces
+│   ├── middleware/    # Security and request middleware
+│   └── database/      # Database layer with security
+├── views/             # Presentation layer
+└── bootstrap/         # Application bootstrap files
+```
+
+## Security Features
+
+### 🔒 SQL Injection Protection
+- Parameterized queries with PDO
+- Input sanitization and validation
+- Secure database connection handling
+
+### 🛡️ Rate Limiting & Throttling
+```php
+// Configure in routes.php
+$router->middleware(new RateLimitMiddleware(100, 60))  // 100 requests/minute
+       ->middleware(new ThrottleMiddleware(1));         // 1 second between requests
+```
+
+### 🏗️ Dependency Injection
+```php
+// Interface binding
+App::bind(UserRepositoryInterface::class, UserRepository::class);
+
+// Singleton registration
+App::singleton(DatabaseManager::class);
+
+// Auto-resolution
+$service = App::resolve(SomeService::class);
+```
 
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://github.com/dev-haykay/MVCBoilerplate/blob/master/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://github.com/aoamusat/fortress/blob/master/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## Changelog
+
+### v2.0.0 (Latest)
+- ✅ Fixed critical SQL injection vulnerabilities
+- ✅ Added comprehensive exception handling system
+- ✅ Implemented advanced dependency injection container
+- ✅ Built middleware pipeline with rate limiting
+- ✅ Added request throttling capabilities
+- ✅ Enhanced security throughout the framework
+
+### v1.0.0 (Original)
+- Basic MVC structure
+- Simple routing system
+- Basic database connection
 
 ## License
 
