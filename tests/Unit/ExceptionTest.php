@@ -185,16 +185,16 @@ class ExceptionTest extends TestCase
     {
         // Test RouteNotFoundException
         $routeException = new RouteNotFoundException('/test');
-        $this->assertStringContains('/test', $routeException->getMessage());
+        $this->assertStringContainsString('/test', $routeException->getMessage());
 
         // Test MethodNotFoundException
         $methodException = new MethodNotFoundException('index', 'UserController');
-        $this->assertStringContains('index', $methodException->getMessage());
-        $this->assertStringContains('UserController', $methodException->getMessage());
+        $this->assertStringContainsString('index', $methodException->getMessage());
+        $this->assertStringContainsString('UserController', $methodException->getMessage());
 
         // Test ServiceNotFoundException
         $serviceException = new ServiceNotFoundException('TestService');
-        $this->assertStringContains('TestService', $serviceException->getMessage());
+        $this->assertStringContainsString('TestService', $serviceException->getMessage());
     }
 
     private function createExceptionInstance(string $exceptionClass): BaseException
@@ -217,7 +217,7 @@ class ExceptionTest extends TestCase
 // Test helper class
 class TestableBaseException extends BaseException
 {
-    public function __construct(string $message = "", int $code = 0, \Throwable $previous = null)
+    public function __construct(string $message = "", int $code = 0, ?\Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

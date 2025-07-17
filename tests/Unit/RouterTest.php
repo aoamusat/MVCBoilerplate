@@ -161,7 +161,7 @@ class RouterTest extends TestCase
 // Test helper classes
 class TestMiddleware implements MiddlewareInterface
 {
-    public function handle(Request $request, \Closure $next)
+    public function handle(\App\Core\Request $request, \Closure $next)
     {
         return $next($request);
     }

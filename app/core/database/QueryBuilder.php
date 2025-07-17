@@ -1,23 +1,25 @@
 <?php
 
+namespace App\Core\Database;
+
 use App\Core\Exceptions\DatabaseException;
 
 /**
  * Class QueryBuilder
  *
- * Represents a query builder for interacting with a db using PDO (PHP Data Objects).
+ * Represents a query builder for interacting with a db using \PDO (PHP Data Objects).
  */
 class QueryBuilder
 {
-    // @var PDO The PDO database connection instance.
+    // @var \\PDO The \PDO database connection instance.
     protected $pdo;
 
     /**
      * QueryBuilder constructor.
      *
-     * @param PDO $pdo The PDO database connection instance.
+     * @param \PDO $pdo The \PDO database connection instance.
      */
-    public function __construct(PDO $pdo)
+    public function __construct(\PDO $pdo)
     {
         $this->pdo = $pdo;
     }
@@ -32,7 +34,7 @@ class QueryBuilder
     {
         $statement = $this->pdo->prepare("SELECT * FROM `{$table}`");
         $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_OBJ);
+        return $statement->fetchAll(\PDO::FETCH_OBJ);
     }
 
     /**
@@ -57,9 +59,9 @@ class QueryBuilder
     public function findOne($id, $table)
     {
         $statement = $this->pdo->prepare("SELECT * FROM `{$table}` WHERE id = :id LIMIT 1");
-        $statement->bindParam(':id', $id, PDO::PARAM_INT);
+        $statement->bindParam(':id', $id, \PDO::PARAM_INT);
         $statement->execute();
-        return $statement->fetch(PDO::FETCH_OBJ) ?: null;
+        return $statement->fetch(\PDO::FETCH_OBJ) ?: null;
     }
 
     /**
@@ -71,17 +73,21 @@ class QueryBuilder
      */
     public function insert(string $table, array $params = []) : bool
     {
-        $sql = sprintf(
-            "INSERT INTO %s (%s) VALUES(%s)",
-            $table,
-            implode(',', array_keys($params)), 
-            ':' . implode(', :', array_keys($params))
-        );
+        if (empty($params)) {
+            $sql = sprintf("INSERT INTO %s () VALUES()", $table);
+        } else {
+            $sql = sprintf(
+                "INSERT INTO %s (%s) VALUES(%s)",
+                $table,
+                implode(',', array_keys($params)), 
+                ':' . implode(', :', array_keys($params))
+            );
+        }
 
         try {
             $statement = $this->pdo->prepare($sql);
             return $statement->execute($params);
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             // throw new DatabaseException("Failed to insert data: " . $e->getMessage());
             return false;
         }

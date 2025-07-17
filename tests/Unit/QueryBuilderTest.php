@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use QueryBuilder;
+use App\Core\Database\QueryBuilder;
 use PDO;
 use PDOStatement;
 use PDOException;
