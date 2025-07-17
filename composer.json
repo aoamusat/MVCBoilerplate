@@ -20,6 +20,7 @@
 			"Tests\\": "tests/"
 		}
 	},
+	"bin": ["fortress"],
 	"scripts": {
 		"test": "phpunit",
 		"test:coverage": "phpunit --coverage-html coverage"

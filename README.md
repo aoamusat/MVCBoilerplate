@@ -13,6 +13,7 @@ These instructions will get you a copy of the project up and running on your loc
 - **🏗️ Advanced DI Container**: Interface binding, auto-resolution, and singleton management
 - **⚡ Performance**: Optimized routing with middleware caching and efficient request handling
 - **🎯 Clean Architecture**: Separation of concerns with proper exception handling
+- **🛠️ CLI Tools**: Laravel Artisan-like command line interface for development
 - **📚 Educational**: Perfect for learning modern PHP development patterns
 
 ### Prerequisites
@@ -54,7 +55,12 @@ composer install
 ]
 ```
 
-6) Start your local server and visit:
+6) Start the development server:
+```bash
+php fortress run
+```
+
+Or visit via traditional web server:
 ```
 http://localhost/fortress
 ```
@@ -67,6 +73,7 @@ fortress follows a clean MVC architecture with additional security layers:
 app/
 ├── controllers/        # Request handlers
 ├── core/              # Framework core
+│   ├── console/       # CLI command system
 │   ├── exceptions/    # Custom exception classes
 │   ├── interfaces/    # Contracts and interfaces
 │   ├── middleware/    # Security and request middleware
@@ -101,6 +108,44 @@ App::singleton(DatabaseManager::class);
 $service = App::resolve(SomeService::class);
 ```
 
+## CLI Commands
+
+Fortress includes a Laravel Artisan-like CLI system for development tasks:
+
+### Development Server
+```bash
+# Start server (default: localhost:8000)
+php fortress run
+
+# Custom host and port
+php fortress run 127.0.0.1:3000
+php fortress run --host=0.0.0.0 --port=8080
+
+# Show help
+php fortress run --help
+```
+
+### Available Commands
+- `run` - Start the development server with built-in PHP server
+
+### Extending the CLI
+Create new commands by implementing `CommandInterface`:
+
+```php
+<?php
+namespace App\Core\Console\Commands;
+
+class MyCommand implements CommandInterface
+{
+    public function execute(array $arguments)
+    {
+        // Your command logic here
+    }
+}
+```
+
+Register commands in `app/Core/Console/Console.php`.
+
 
 ## Contributing
 
@@ -108,7 +153,12 @@ Please read [CONTRIBUTING.md](https://github.com/aoamusat/fortress/blob/master/C
 
 ## Changelog
 
-### v2.0.0 (Latest)
+### v2.1.0 (Latest)
+- ✅ Added Laravel Artisan-like CLI system
+- ✅ Implemented development server command
+- ✅ Enhanced developer experience with command-line tools
+
+### v2.0.0
 - ✅ Fixed critical SQL injection vulnerabilities
 - ✅ Added comprehensive exception handling system
 - ✅ Implemented advanced dependency injection container

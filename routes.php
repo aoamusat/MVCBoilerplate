@@ -10,8 +10,4 @@ $router = new Router();
 $router->middleware(new RateLimitMiddleware(100, 60))  // 100 requests per minute
        ->middleware(new ThrottleMiddleware(1));         // 1 second between requests
 
-$router->get('', 'PagesController@home');
-$router->get('about', 'PagesController@about');
-$router->get('contact', 'PagesController@contact');
-$router->get('users', 'UserController@index');
-$router->post('users', 'UserController@store');
+$router->get('', 'PageController@home');
